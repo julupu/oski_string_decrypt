@@ -6,8 +6,17 @@ from Crypto.Cipher import ARC4
 decryption_function = 0x00422f70
 key_addr = 0x0042a074
 
+if len(sys.argv) < 2:
+    print("Usage:" +  sys.argv[0] + " <file>")
+    sys.exit(1)
+
 pipe = rzpipe.open(sys.argv[1])
 pipe.cmd('aa')
+
+# Read key from memory (pszj = print string zeroterminated and parse json)
+key = pipe.cmdj('pszj @ %s' % key_addr)['string']
+print("Key: " + key)
+print("--------------------------------------------------")
 
 # Iterate references to the decryption function
 for xref in pipe.cmdj('axtj %d' % decryption_function):
@@ -20,11 +29,10 @@ for xref in pipe.cmdj('axtj %d' % decryption_function):
     
     # Read encrypted string from memory (pszj = print string zeroterminated and parse json)
     encrypted_string = pipe.cmdj('pszj @ %s' % encrypted_string_addr)['string']
-    
-    # Read key from memory (pszj = print string zeroterminated and parse json)
-    key = pipe.cmdj('pszj @ %s' % key_addr)['string']
-    
+        
     # Decode and decrypt
     rc4 = ARC4.new(key.encode("utf8"))
     decrypted_string = rc4.decrypt(base64.b64decode(encrypted_string))
-    print(decrypted_string)
+    
+    print(encrypted_string + " @ " + encrypted_string_addr + ": " + decrypted_string.decode("utf-8"))
+
