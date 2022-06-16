@@ -8,12 +8,12 @@ Script can be run standalone from commandline or in the context of rizin/cutter.
 
 ## Standalone
 
-.\rzpipe_oski_decrypt.py file.exe
+    .\rzpipe_oski_decrypt.py file.exe
 
 ## Rizin
 
-rizin.exe file.exe
- . rzpipe_oski_decrypt.py
+    rizin.exe file.exe
+    . rzpipe_oski_decrypt.py
  
 
 The comments are added at every function call for the decryption function:
