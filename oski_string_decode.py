@@ -6,11 +6,12 @@ from Crypto.Cipher import ARC4
 decryption_function = 0x00422f70
 key_addr = 0x0042a074
 
-if len(sys.argv) < 2:
-    print("Usage:" +  sys.argv[0] + " <file>")
-    sys.exit(1)
+# Standalone with filename as argument, otherwise interactively within rizin/cutter
+if len(sys.argv) == 2:
+    pipe = rzpipe.open(sys.argv[1])
+else:
+    pipe = rzpipe.open()
 
-pipe = rzpipe.open(sys.argv[1])
 pipe.cmd('aa')
 
 # Read key from memory (pszj = print string zeroterminated and parse json)
@@ -35,4 +36,6 @@ for xref in pipe.cmdj('axtj %d' % decryption_function):
     decrypted_string = rc4.decrypt(base64.b64decode(encrypted_string))
     
     print(encrypted_string + " @ " + encrypted_string_addr + ": " + decrypted_string.decode("utf-8"))
-
+    
+    # Set decrypted string as comment
+    pipe.cmdj('CCu %s @ %d' % (decrypted_string, xref['from']))
