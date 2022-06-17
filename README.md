@@ -1,4 +1,4 @@
-# oski_string_decode
+# oski_string_decrypt
 
 rzpipe script to decrypt strings from Oski Stealer. Currently contains hardcoded addresses. 
 
