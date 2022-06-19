@@ -2,7 +2,7 @@
 
 rzpipe script to decrypt strings from Oski Stealer. Currently contains hardcoded addresses. 
 
-Blogpost: https://julian-wolf.eu/blog/oskistealer
+Blogpost: https://julian-wolf.eu/2022/06/17/oski-stealer-unpacking-and-string-decryption/
 
 Script can be run standalone from commandline or in the context of rizin/cutter.
 
